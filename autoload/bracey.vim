@@ -79,22 +79,22 @@ endfunction
 
 function! bracey#sendCurrentBuffer()
 	let contents = join(getline(1, '$'), "\n")
-	call bracey#sendCommand('b:'.len(contents).':'.contents)
+	call bracey#sendCommand('b:'.strchars(contents).':'.contents)
 endfunction
 
 function! bracey#evalFile(...)
 	if a:0
 		let content = join(a:000, ' ')
-		call bracey#sendCommand('e:'.len(content).':'.content)
+		call bracey#sendCommand('e:'.strchars(content).':'.content)
 	else
 		let contents = join(getline(1, '$'), "\n")
-		call bracey#sendCommand('e:'.len(contents).':'.contents)
+		call bracey#sendCommand('e:'.strchars(contents).':'.contents)
 	endif
 endfunction
 
 function! bracey#reload()
 	let path = expand('%')
-	call bracey#sendCommand('r:'.len(path).':'.path)
+	call bracey#sendCommand('r:'.strchars(path).':'.path)
 endfunction
 
 function! bracey#setFile()
@@ -102,12 +102,12 @@ function! bracey#setFile()
 	let bufname = bufname('%')
 	let bufnum = bufnr('%')
 	let contents = join(getline(1, '$'), "\n")
-	call bracey#sendCommand('f:'.len(bufnum).':'.bufnum.':'.len(bufname).':'.bufname.':'.len(path).':'.path.':'.len(&filetype).':'.&filetype.'b:'.len(contents).':'.contents)
+	call bracey#sendCommand('f:'.strchars(bufnum).':'.bufnum.':'.strchars(bufname).':'.bufname.':'.strchars(path).':'.path.':'.strchars(&filetype).':'.&filetype.'b:'.strchars(contents).':'.contents)
 endfunction
 
 function! bracey#setVars()
 	let cwd = getcwd()
-	call bracey#sendCommand('v:'.len(cwd).':'.cwd)
+	call bracey#sendCommand('v:'.strchars(cwd).':'.cwd)
 endfunction
 
 function! bracey#bufferChange()
@@ -121,7 +121,7 @@ endfunction
 function! bracey#setCursor()
 	let line = line('.')
 	let column = col('.')
-	call bracey#sendCommand('p:'.len(line).':'.line.':'.len(column).':'.column)
+	call bracey#sendCommand('p:'.strchars(line).':'.line.':'.strchars(column).':'.column)
 endfunction
 
 function! bracey#sendCommand(msg)
